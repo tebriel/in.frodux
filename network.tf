@@ -9,7 +9,7 @@ resource "azurerm_subnet" "virtual" {
   name                 = "frodux-in-virtual"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.aks.name
-  address_prefixes     = ["10.0.0.0/24"]
+  address_prefixes     = ["10.0.1.0/24"]
 
   delegation {
     name = "aciDelegation"
@@ -24,5 +24,5 @@ resource "azurerm_subnet" "aks" {
   name                 = "frodux-in-aks"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.aks.name
-  address_prefixes     = ["10.0.0.0/24"]
+  address_prefixes     = ["10.0.2.0/24"]
 }
