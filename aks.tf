@@ -14,7 +14,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     vm_size             = "Standard_B2ms"
     enable_auto_scaling = false
     os_sku              = "Ubuntu"
-    vnet_subnet_id      = azurerm_subnet.virtual.id
+    vnet_subnet_id      = azurerm_subnet.aks.id
   }
 
   linux_profile {
