@@ -28,9 +28,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
     type = "SystemAssigned"
   }
 
-  aci_connector_linux {
-    subnet_name = azurerm_subnet.virtual.name
-  }
+#   aci_connector_linux {
+#     subnet_name = azurerm_subnet.virtual.name
+#   }
   network_profile {
     network_plugin    = "azure"
     network_policy    = "azure"
