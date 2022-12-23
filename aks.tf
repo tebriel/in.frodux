@@ -50,13 +50,18 @@ resource "azurerm_kubernetes_cluster" "aks" {
 # }
 
 resource "azurerm_kubernetes_cluster_node_pool" "user" {
-  name                  = "user"
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
-  enable_auto_scaling   = true
-  node_count            = 1
-  min_count             = 1
-  max_count             = 3
-  vm_size               = "Standard_B2s"
+  name                    = "user"
+  kubernetes_cluster_id   = azurerm_kubernetes_cluster.aks.id
+  enable_auto_scaling     = true
+  node_count              = 1
+  min_count               = 1
+  max_count               = 3
+  vm_size                 = "Standard_B2s"
+  vnet_subnet_id          = azurerm_subnet.nodepool.id
+  custom_ca_trust_enabled = false
+  enable_host_encryption  = false
+  enable_node_public_ip   = false
+  fips_enabled            = false
 }
 
 output "client_certificate" {
