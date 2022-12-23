@@ -33,6 +33,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   network_profile {
     network_plugin = "azure"
-    service_cidrs  = ["10.0.2.0/24"]
+    service_cidr   = "10.0.2.0/24"
   }
 }
