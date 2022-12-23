@@ -41,8 +41,8 @@ resource "azurerm_kubernetes_cluster" "aks" {
   http_application_routing_enabled = false
 }
 
-resource "azurerm_role_assignment" "aks-aci" {
-  scope                = azurerm_subnet.virtual.id
-  role_definition_name = "Network Contributor"
-  principal_id         = azurerm_kubernetes_cluster.aks.identity.0.principal_id
-}
+# resource "azurerm_role_assignment" "aks-aci" {
+#   scope                = azurerm_subnet.virtual.id
+#   role_definition_name = "Network Contributor"
+#   principal_id         = azurerm_kubernetes_cluster.aks.identity.0.principal_id
+# }
