@@ -11,8 +11,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
   default_node_pool {
     name                = "default"
     node_count          = 1
-    vm_size             = "Standard_B2ms"
-    enable_auto_scaling = false
+    min_count           = 1
+    max_count           = 3
+    vm_size             = "Standard_B2s"
+    enable_auto_scaling = true
     os_sku              = "Ubuntu"
     vnet_subnet_id      = azurerm_subnet.nodepool.id
   }
@@ -45,4 +47,14 @@ resource "azurerm_role_assignment" "aks-aci" {
   scope                = azurerm_subnet.virtual.id
   role_definition_name = "Network Contributor"
   principal_id         = azurerm_kubernetes_cluster.aks.identity.0.principal_id
+}
+
+resource "azurerm_kubernetes_cluster_node_pool" "user" {
+  name                  = "user"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
+  enable_auto_scaling   = true
+  node_count            = 1
+  min_count             = 1
+  max_count             = 3
+  vm_size               = "Standard_B2s"
 }
