@@ -37,6 +37,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     network_plugin    = "azure"
     network_policy    = "azure"
     load_balancer_sku = "standard"
+    service_cidr      = "172.50.0.0/16"
   }
 
   azure_policy_enabled             = false
