@@ -1,68 +1,52 @@
 resource "azurerm_kubernetes_cluster" "aks" {
-  name                            = "in-frodux-infra"
-  location                        = azurerm_resource_group.rg.location
-  resource_group_name             = azurerm_resource_group.rg.name
-  dns_prefix                      = "infra"
-  automatic_channel_upgrade       = "patch"
-  public_network_access_enabled   = true
-  api_server_authorized_ip_ranges = ["0.0.0.0/32"]
-  sku_tier                        = "Free"
+  name                          = "in-frodux-infra"
+  location                      = azurerm_resource_group.rg.location
+  resource_group_name           = azurerm_resource_group.rg.name
+  dns_prefix                    = "in-frodux-infra-dns"
+  automatic_channel_upgrade     = "patch"
+  public_network_access_enabled = true
+  sku_tier                      = "Free"
+  enable_pod_security_policy    = false
+  local_account_disabled        = false
+  node_resource_group           = azurerm_resource_group.nodes.name
+  oidc_issuer_enabled           = false
+  open_service_mesh_enabled     = false
 
   default_node_pool {
-    name                = "default"
+    name                = "agentpool"
     node_count          = 1
     min_count           = 1
-    max_count           = 3
-    vm_size             = "Standard_B2s"
+    max_count           = 4
+    vm_size             = "Standard_B2ms"
     enable_auto_scaling = true
     os_sku              = "Ubuntu"
-    vnet_subnet_id      = azurerm_subnet.nodepool.id
-  }
 
-  linux_profile {
-    admin_username = "tebriel"
-    ssh_key {
-      key_data = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCV5VtRYn2N8LY021ctMQj7nk1aUu51iGlRPEHCiJAFTT/wyVS3eA43Lhoup+UhQe3KqhTOA6zxUyq4dgivLTLm8+qWsm4FFoDvgK73fKNQh+TrUwY7507imIhwYmYLfiSN7aB5ksMgPhX/cZSl8OIaimjNdIRBEMEEUErhDh52NKvcuaCECNrDHhEse6O46HW9hQOQ3jxQ6J05NbVAgJefGPH4t+GqItrq9ZEhWnciFnlo/PFIQiyYOliLvkEFzQ8I+njecl4/SsR7pPs9Ve3fMncWqSqSRJm0APvHk/zoMp3B+KT6IjIdocnTu0JDtoi/FwNIfAlECHnYfx3FsacNO9qlDr0kYFtIzuXPvT1khclcaZlYPuq2PVX4eywvCH2uYsT3GZqbfOpwDOL3PDhVjGDN6UD5drJotUh29NTzy7ALAN8RTr/Am2PsjjngV0rzADkSwBW50dihgj5fxyuTFtHY/UpwYg2mFK24v1W7zlXkRVuRdDDZddMgG3cxe/DSN8EkEP1yyvwzlAAfFsfTh87Bd+egmWWVxhmmJk4cENngv9+5fPgVz8CDvcbPouTdRrTcVy1uMjo1YcQrBHaOlwL90ivrAtxPZ6xsZfpOBvLJoW+Iae22rTVrIIPCpgUFXKLLZ85VbE+zof2qoMAA7lIogvzXNEKdmunCp0HOKw=="
-    }
+    custom_ca_trust_enabled      = false
+    enable_host_encryption       = false
+    enable_node_public_ip        = false
+    fips_enabled                 = false
+    node_taints                  = []
+    only_critical_addons_enabled = false
   }
 
   identity {
-    type = "SystemAssigned"
-  }
-
-  aci_connector_linux {
-    subnet_name = azurerm_subnet.virtual.name
+    type         = "SystemAssigned"
+    identity_ids = []
   }
   network_profile {
-    network_plugin    = "azure"
-    network_policy    = "azure"
-    load_balancer_sku = "standard"
-    service_cidr      = "172.50.0.0/16"
+    network_plugin     = "kubenet"
+    load_balancer_sku  = "standard"
+    dns_service_ip     = "10.0.0.10"
+    docker_bridge_cidr = "172.17.0.1/16"
+    ip_versions        = ["IPv4"]
+    pod_cidr           = "10.244.0.0/16"
+    pod_cidrs          = ["10.244.0.0/16"]
+    service_cidr       = "10.0.0.0/16"
+    service_cidrs      = ["10.0.0.0/16"]
   }
 
   azure_policy_enabled             = false
   http_application_routing_enabled = false
-}
-
-# resource "azurerm_role_assignment" "aks-aci" {
-#   scope                = azurerm_subnet.virtual.id
-#   role_definition_name = "Network Contributor"
-#   principal_id         = azurerm_kubernetes_cluster.aks.identity.0.principal_id
-# }
-
-resource "azurerm_kubernetes_cluster_node_pool" "user" {
-  name                    = "user"
-  kubernetes_cluster_id   = azurerm_kubernetes_cluster.aks.id
-  enable_auto_scaling     = true
-  node_count              = 1
-  min_count               = 1
-  max_count               = 3
-  vm_size                 = "Standard_B2s"
-  vnet_subnet_id          = azurerm_subnet.nodepool.id
-  custom_ca_trust_enabled = false
-  enable_host_encryption  = false
-  enable_node_public_ip   = false
-  fips_enabled            = false
 }
 
 output "client_certificate" {
