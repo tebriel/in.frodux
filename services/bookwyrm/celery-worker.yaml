@@ -1,29 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web 
+  name: celery-worker 
   labels:
-    app: web
+    app: celery-worker
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web
+      app: celery-worker
   template:
     metadata:
       labels:
-        app: web
-        app.kubernetes.io/name: bookwyrm-web
+        app: celery-worker
+        app.kubernetes.io/name: bookwyrm-celery-worker
     spec:
       containers:
-      - name: web
+      - name: celery-worker
         image: cmoultrie/bookwyrm@sha256:1790976da5c6bdbc5940ab65b5d8923dd67d81ce1d9fc441e777cbbdd4346eeb
-        ports:
-        - containerPort: 8000
-        # command: ["sleep"]
-        # args: ["infinity"]
-        command: ["/usr/local/bin/gunicorn"]
-        args: ["bookwyrm.wsgi:application", "--bind", "0.0.0.0:8000"]
+        command: ["/usr/local/bin/celery"]
+        args: ["-A", "celerywyrm", "worker", "-l", "info", "-Q", "high_priority,medium_priority,low_priority,imports"]
         volumeMounts:
         - name: bookwyrm-env
           mountPath: "/app/.env"
