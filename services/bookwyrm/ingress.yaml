@@ -18,6 +18,6 @@ spec:
           path: "/"
           backend:
             service:
-              name: echo1
+              name: bookwyrm-web
               port:
                 number: 80

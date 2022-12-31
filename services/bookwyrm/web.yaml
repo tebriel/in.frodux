@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web 
+  labels:
+    app: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+        app.kubernetes.io/name: bookwyrm-web
+    spec:
+      containers:
+      - name: web
+        image: cmoultrie/bookwyrm@sha256:0cee4fb865c21684e8db428c65a10bb0fb4aa57f2cb3892a851e18caf0c664f1
+        ports:
+        - containerPort: 8000
+        # command: ["sleep"]
+        # args: ["infinity"]
+        command: ["/usr/local/bin/gunicorn"]
+        args: ["bookwyrm.wsgi:application", "--bind", "0.0.0.0:8000"]
+        volumeMounts:
+        - name: bookwyrm-env
+          mountPath: "/app/.env"
+          subPath: ".env"
+          readOnly: true
+      volumes:
+      - name: bookwyrm-env
+        secret:
+          secretName: bookwyrm-env
