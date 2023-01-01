@@ -8,10 +8,10 @@ resource "azurerm_storage_account" "frodux" {
   account_tier                  = "Standard"
   account_replication_type      = "GRS"
   public_network_access_enabled = true
-#   custom_domain {
-#     name          = "bookwyrm.static.frodux.in"
-#     use_subdomain = true
-#   }
+  #   custom_domain {
+  #     name          = "bookwyrm.static.frodux.in"
+  #     use_subdomain = true
+  #   }
 }
 
 # Subdomain validation record
@@ -21,4 +21,8 @@ resource "azurerm_dns_cname_record" "storage-cname" {
   resource_group_name = data.azurerm_resource_group.frodux-in.name
   ttl                 = 300
   record              = "${local.storage_account_name}.blob.core.windows.net}"
+
+  depends_on = [
+    azurerm_storage_account.frodux
+  ]
 }
