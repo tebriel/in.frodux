@@ -20,7 +20,7 @@ resource "azurerm_dns_cname_record" "storage-cname" {
   zone_name           = data.azurerm_dns_zone.frodux.name
   resource_group_name = data.azurerm_resource_group.frodux-in.name
   ttl                 = 300
-  record              = "${local.storage_account_name}.blob.core.windows.net}"
+  record              = "${local.storage_account_name}.blob.core.windows.net"
 
   depends_on = [
     azurerm_storage_account.frodux
