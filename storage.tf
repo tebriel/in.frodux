@@ -1,5 +1,8 @@
+locals {
+  storage_account_name = "froduxinfra"
+}
 resource "azurerm_storage_account" "frodux" {
-  name                          = "froduxinfra"
+  name                          = local.storage_account_name
   resource_group_name           = azurerm_resource_group.rg.name
   location                      = azurerm_resource_group.rg.location
   account_tier                  = "Standard"
@@ -9,10 +12,6 @@ resource "azurerm_storage_account" "frodux" {
     name          = "bookwyrm.static.frodux.in"
     use_subdomain = true
   }
-
-  depends_on = [
-    azurerm_dns_cname_record.storage-cname
-  ]
 }
 
 # Subdomain validation record
@@ -21,5 +20,5 @@ resource "azurerm_dns_cname_record" "storage-cname" {
   zone_name           = data.azurerm_dns_zone.frodux.name
   resource_group_name = data.azurerm_resource_group.frodux-in.name
   ttl                 = 300
-  records             = ["${azurerm_storage_account.frodux.name}.blob.core.windows.net}"]
+  record              = "${local.storage_account_name}.blob.core.windows.net}"
 }
