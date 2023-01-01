@@ -8,10 +8,10 @@ resource "azurerm_storage_account" "frodux" {
   account_tier                  = "Standard"
   account_replication_type      = "GRS"
   public_network_access_enabled = true
-  custom_domain {
-    name          = "bookwyrm.static.frodux.in"
-    use_subdomain = true
-  }
+#   custom_domain {
+#     name          = "bookwyrm.static.frodux.in"
+#     use_subdomain = true
+#   }
 }
 
 # Subdomain validation record
