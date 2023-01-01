@@ -26,3 +26,9 @@ resource "azurerm_dns_cname_record" "storage-cname" {
     azurerm_storage_account.frodux
   ]
 }
+
+esource "azurerm_storage_container" "bookwyrm" {
+  name                  = "vhds"
+  storage_account_name  = azurerm_storage_account.frodux.name
+  container_access_type = "blob"
+}
