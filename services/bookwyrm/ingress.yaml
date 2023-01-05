@@ -21,3 +21,10 @@ spec:
               name: bookwyrm-web
               port:
                 number: 80
+        - pathType: Prefix
+          path: "/api/updates/"
+          backend:
+            service:
+              name: bookwyrm-web
+              port:
+                number: 80

@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: celery-beat
-        image: cmoultrie/bookwyrm@sha256:1790976da5c6bdbc5940ab65b5d8923dd67d81ce1d9fc441e777cbbdd4346eeb
+        image: cmoultrie/bookwyrm@sha256:9e2a40fafec5989652af9e731b6a81a783f2462a1b79f7671843b33834bef7cb
         command: ["/usr/local/bin/celery"]
         args: ["-A", "celerywyrm", "beat", "-l", "INFO", "--scheduler", "django_celery_beat.schedulers:DatabaseScheduler"]
         volumeMounts:
