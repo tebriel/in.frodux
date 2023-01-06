@@ -15,3 +15,7 @@ python manage.py migrate
 python manage.py compile_themes
 python manage.py collectstatic --no-input
 ```
+
+## Email
+
+SendGrid is used to send email. That configuration lives in tebriel/dns.
