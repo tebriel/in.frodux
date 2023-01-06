@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celery-worker 
+  labels:
+    app: celery-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: celery-worker
+  template:
+    metadata:
+      labels:
+        app: celery-worker
+        app.kubernetes.io/name: bookwyrm-celery-worker
+    spec:
+      containers:
+      - name: celery-worker
+        image: cmoultrie/bookwyrm@sha256:a36bc90818b00f282722a2e6c1db4fce79ff32bbabb76d812969120558618361
+        command: ["/usr/local/bin/celery"]
+        args: ["-A", "celerywyrm", "worker", "-l", "info", "-Q", "high_priority,medium_priority,low_priority,imports"]
+        volumeMounts:
+        - name: bookwyrm-env
+          mountPath: "/app/.env"
+          subPath: ".env"
+          readOnly: true
+      volumes:
+      - name: bookwyrm-env
+        secret:
+          secretName: bookwyrm-env
