@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: celery-worker
-        image: cmoultrie/bookwyrm@sha256:a36bc90818b00f282722a2e6c1db4fce79ff32bbabb76d812969120558618361
+        image: cmoultrie/bookwyrm
         command: ["/usr/local/bin/celery"]
         args: ["-A", "celerywyrm", "worker", "-l", "info", "-Q", "high_priority,medium_priority,low_priority,imports"]
         volumeMounts:

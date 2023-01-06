@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: bookwyrm
+
+images:
+- name: cmoultrie/bookwyrm
+  digest: sha256:a36bc90818b00f282722a2e6c1db4fce79ff32bbabb76d812969120558618361 
+
+resources:
+- flower.yaml
+- ingress.yaml
+- celery-worker.yaml
+- celery-beat.yaml
+- web.yaml
+- service.yaml
+
+secretGenerator:
+- name: flower-user-pass
+  envs:
+  - .flower.secret
+- name: bookwyrm-env
+  files:
+  - .env
+- name: bookwyrm-env-vars
+  envs:
+  - .env

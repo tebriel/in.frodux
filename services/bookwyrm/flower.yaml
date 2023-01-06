@@ -1,29 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web 
+  name: flower 
   labels:
-    app: web
+    app: flower
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web
+      app: flower
   template:
     metadata:
       labels:
-        app: web
-        app.kubernetes.io/name: bookwyrm-web
+        app: flower
+        app.kubernetes.io/name: bookwyrm-flower
     spec:
       containers:
-      - name: web
+      - name: flower
         image: cmoultrie/bookwyrm
-        ports:
-        - containerPort: 8000
-        # command: ["sleep"]
-        # args: ["infinity"]
-        command: ["/usr/local/bin/gunicorn"]
-        args: ["bookwyrm.wsgi:application", "--bind", "0.0.0.0:8000"]
+        command: ["/usr/local/bin/celery"]
+        args: ["-A", "celerywyrm", "flower", "--basic_auth=${FLOWER_USER}:${FLOWER_PASSWORD}", "--url_prefix=flower"]
+        envFrom:
+        - secretRef:
+            name: flower-user-pass
         volumeMounts:
         - name: bookwyrm-env
           mountPath: "/app/.env"
