@@ -6,7 +6,6 @@ resource "azurerm_kubernetes_cluster" "aks" {
   automatic_channel_upgrade     = "patch"
   public_network_access_enabled = true
   sku_tier                      = "Free"
-  enable_pod_security_policy    = false
   local_account_disabled        = false
   node_resource_group           = azurerm_resource_group.nodes.name
   oidc_issuer_enabled           = false
