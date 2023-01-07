@@ -44,6 +44,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
     service_cidrs      = ["10.0.0.0/16"]
   }
 
+  storage_profile {
+    blob_driver_enabled = true
+  }
+
   azure_policy_enabled             = false
   http_application_routing_enabled = false
 }
