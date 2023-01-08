@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: takahe
+
+images:
+- name: jointakahe/takahe
+  digest: sha256:ebd06dc9fa555c889fa01b0434af57bd33c6c4caa299ae5518a78d1b03311154
+
+resources:
+- nfs-web-volume.yaml
+- nfs-web-volume-claim.yaml
+- nfs-runtator-volume.yaml
+- nfs-runtator-volume-claim.yaml
+- web.yaml
+- runstator.yaml
+- service.yaml
+- ingress.yaml
+
+secretGenerator:
+- name: takahe-env-vars
+  envs:
+  - takahe.env

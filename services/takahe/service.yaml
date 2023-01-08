@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: takahe-web
+spec:
+  selector:
+    app.kubernetes.io/name: takahe-web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
