@@ -31,3 +31,10 @@ resource "azurerm_postgresql_flexible_server_database" "bookwyrm" {
   collation = "en_US.utf8"
   charset   = "utf8"
 }
+
+resource "azurerm_postgresql_flexible_server_database" "takahe" {
+  name      = "takahe"
+  server_id = azurerm_postgresql_flexible_server.db.id
+  collation = "en_US.utf8"
+  charset   = "utf8"
+}
