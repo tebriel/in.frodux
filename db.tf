@@ -38,3 +38,10 @@ resource "azurerm_postgresql_flexible_server_database" "takahe" {
   collation = "en_US.utf8"
   charset   = "utf8"
 }
+
+resource "azurerm_postgresql_flexible_server_database" "zulip" {
+  name      = "zulip"
+  server_id = azurerm_postgresql_flexible_server.db.id
+  collation = "en_US.utf8"
+  charset   = "utf8"
+}
