@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: runstator
-        image: jointakahe/takahe
+        image: cmoultrie/takahe
         ports:
         - containerPort: 8000
         securityContext:

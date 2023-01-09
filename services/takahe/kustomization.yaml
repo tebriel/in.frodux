@@ -4,8 +4,8 @@ kind: Kustomization
 namespace: takahe
 
 images:
-- name: jointakahe/takahe
-  digest: sha256:ebd06dc9fa555c889fa01b0434af57bd33c6c4caa299ae5518a78d1b03311154
+- name: cmoultrie/takahe
+  digest: sha256:b5438c378a91ac175c881dbacb1bc1762326da89cdb126767cb14d40a0a53580
 
 resources:
 - nfs-web-volume.yaml
