@@ -26,6 +26,12 @@ resource "azurerm_storage_container" "bookwyrm" {
   container_access_type = "blob"
 }
 
+resource "azurerm_storage_container" "takahe" {
+  name                  = "takahe"
+  storage_account_name  = azurerm_storage_account.frodux.name
+  container_access_type = "blob"
+}
+
 data "azurerm_resource_group" "takahe-pindropt-fail" {
   name = "takahe.pindropt.fail"
 }
