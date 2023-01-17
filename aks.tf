@@ -32,6 +32,7 @@ resource "azurerm_kubernetes_cluster" "aks" {
     type         = "SystemAssigned"
     identity_ids = []
   }
+
   network_profile {
     network_plugin     = "kubenet"
     load_balancer_sku  = "standard"
@@ -46,6 +47,10 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
   storage_profile {
     blob_driver_enabled = true
+  }
+
+  oms_agent {
+    log_analytics_workspace_id = azurerm_log_analytics_workspace.in-frodux.id
   }
 
   azure_policy_enabled             = false
