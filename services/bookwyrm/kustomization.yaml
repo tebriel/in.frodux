@@ -5,7 +5,7 @@ namespace: bookwyrm
 
 images:
 - name: cmoultrie/bookwyrm
-  digest: sha256:a36bc90818b00f282722a2e6c1db4fce79ff32bbabb76d812969120558618361 
+  digest: sha256:1bebe54308447f3b3c80e773da8833ec71debccc23b0018f153498092e10837a
 
 resources:
 - flower.yaml
