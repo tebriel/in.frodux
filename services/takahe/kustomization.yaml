@@ -8,10 +8,10 @@ images:
   digest: sha256:b5438c378a91ac175c881dbacb1bc1762326da89cdb126767cb14d40a0a53580
 
 resources:
-- nfs-web-volume.yaml
-- nfs-web-volume-claim.yaml
-- nfs-runtator-volume.yaml
-- nfs-runtator-volume-claim.yaml
+- blobfuse-web-volume.yaml
+- blobfuse-web-volume-claim.yaml
+- blobfuse-runstator-volume.yaml
+- blobfuse-runstator-volume-claim.yaml
 - web.yaml
 - runstator.yaml
 - service.yaml
@@ -21,3 +21,7 @@ secretGenerator:
 - name: takahe-env-vars
   envs:
   - takahe.env
+- name: azure-sas-token
+  envs:
+  - sas-token.env
+  type: Opaque

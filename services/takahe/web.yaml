@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web 
+  name: web
   labels:
     app: web
 spec:
@@ -28,10 +28,3 @@ spec:
         envFrom:
         - secretRef:
             name: takahe-env-vars
-        volumeMounts:
-        - mountPath: "/data"
-          name: web-nfs
-      volumes:
-        - name: web-nfs
-          persistentVolumeClaim:
-            claimName: nfsdata-web

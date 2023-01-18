@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: runstator 
+  name: runstator
   labels:
     app: runstator
 spec:
@@ -30,8 +30,8 @@ spec:
             name: takahe-env-vars
         volumeMounts:
         - mountPath: "/data"
-          name: runstator-nfs
+          name: runstator-blobfuse
       volumes:
-        - name: runstator-nfs
+        - name: runstator-blobfuse
           persistentVolumeClaim:
-            claimName: nfsdata-runtator
+            claimName: nfsdata-runstator
