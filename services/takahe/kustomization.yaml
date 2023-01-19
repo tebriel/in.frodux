@@ -4,8 +4,8 @@ kind: Kustomization
 namespace: takahe
 
 images:
-- name: cmoultrie/takahe
-  digest: sha256:b5438c378a91ac175c881dbacb1bc1762326da89cdb126767cb14d40a0a53580
+- name: cmoultrie/takahe-dev
+  digest: sha256:4db6e1e0864703ef017e508d5838330116f5ebc15ecf4a54759a3cae424943b1
 
 resources:
 - blobfuse-web-volume.yaml

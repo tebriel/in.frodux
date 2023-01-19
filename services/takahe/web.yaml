@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: cmoultrie/takahe
+        image: cmoultrie/takahe-dev
         ports:
         - containerPort: 8000
         securityContext:
