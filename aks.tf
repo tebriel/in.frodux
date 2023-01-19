@@ -57,6 +57,21 @@ resource "azurerm_kubernetes_cluster" "aks" {
   http_application_routing_enabled = false
 }
 
+resource "azurerm_kubernetes_cluster_node_pool" "arm" {
+  name                  = "armpool"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks.id
+  vm_size               = "Standard_D2pls_v5"
+  node_count            = 1
+
+  node_taints = [
+    "arch=arm64:NoSchedule"
+  ]
+
+  tags = {
+    Environment = "Production"
+  }
+}
+
 output "client_certificate" {
   value     = azurerm_kubernetes_cluster.aks.kube_config.0.client_certificate
   sensitive = true
