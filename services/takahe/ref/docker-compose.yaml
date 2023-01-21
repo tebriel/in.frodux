@@ -1,0 +1,29 @@
+services:
+  takahe:
+    image: jointakahe/takahe
+    env_file: ./takahe.env
+    volumes:
+      - /nfsdata:/data
+    user: 101:103
+  takahe-bg:
+    image: jointakahe/takahe
+    env_file: ./takahe.env
+    command: python3 manage.py runstator
+    volumes:
+      - /nfsdata:/data
+    user: 101:103
+  nginx:
+    image: nginx:latest
+    volumes:
+     - ./templates:/etc/nginx/templates
+    ports:
+     - "80:80"
+     - "443:443"
+    environment:
+     - NGINX_BASE=pindropt.fail
+     - NGINX_HOST=takahe.pindropt.fail
+     - NGINX_PORT=443
+    volumes:
+     - /etc/letsencrypt:/etc/letsencrypt
+     - ./templates:/etc/nginx/templates
+     - /nfsdata:/usr/share/nginx/data/_media:ro

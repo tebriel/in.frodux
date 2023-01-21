@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  labels:
+    app: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+        app.kubernetes.io/name: takahe-web
+    spec:
+      containers:
+      - name: web
+        image: cmoultrie/takahe-dev
+        ports:
+        - containerPort: 8000
+        securityContext:
+          runAsUser: 101
+          runAsGroup: 103
+        command: ["/usr/local/bin/gunicorn"]
+        args: ["takahe.wsgi:application", "-b", "0.0.0.0:8000"]
+        envFrom:
+        - secretRef:
+            name: takahe-env-vars

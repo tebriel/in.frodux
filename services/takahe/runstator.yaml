@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: runstator
+  labels:
+    app: runstator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: runstator
+  template:
+    metadata:
+      labels:
+        app: runstator
+        app.kubernetes.io/name: takahe-runstator
+    spec:
+      containers:
+      - name: runstator
+        image: cmoultrie/takahe-dev
+        ports:
+        - containerPort: 8000
+        securityContext:
+          runAsUser: 101
+          runAsGroup: 103
+        command: ["/usr/local/bin/python3"]
+        args: ["manage.py", "runstator"]
+        envFrom:
+        - secretRef:
+            name: takahe-env-vars
+        volumeMounts:
+        - mountPath: "/data"
+          name: runstator-blobfuse
+      volumes:
+        - name: runstator-blobfuse
+          persistentVolumeClaim:
+            claimName: nfsdata-runstator
