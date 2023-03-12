@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: frybot
+
+images:
+  - name: ghcr.io/tebriel/fry-bot:latest
+  # digest: sha256:1bebe54308447f3b3c80e773da8833ec71debccc23b0018f153498092e10837a
+
+resources:
+- fry-bot.yaml
+
+secretGenerator:
+- name: fry-bot-env
+  envs:
+  - .env

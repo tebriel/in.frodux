@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fry-bot
+  labels:
+    app: fry-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fry-bot
+  template:
+    metadata:
+      labels:
+        app: fry-bot
+        app.kubernetes.io/name: fry-bot
+    spec:
+      containers:
+      - name: fry-bot
+        image: ghcr.io/tebriel/fry-bot:latest
+        # command: ["sleep"]
+        # args: ["infinity"]
+        envFrom:
+        - secretRef:
+            name: fry-bot-env
