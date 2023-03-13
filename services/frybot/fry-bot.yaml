@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: fry-bot
-        image: ghcr.io/tebriel/fry-bot:latest
+        image: ghcr.io/tebriel/fry-bot
         # command: ["sleep"]
         # args: ["infinity"]
         envFrom:
