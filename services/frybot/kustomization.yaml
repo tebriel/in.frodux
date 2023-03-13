@@ -4,8 +4,8 @@ kind: Kustomization
 namespace: frybot
 
 images:
-  - name: ghcr.io/tebriel/fry-bot:latest
-  # digest: sha256:1bebe54308447f3b3c80e773da8833ec71debccc23b0018f153498092e10837a
+  - name: ghcr.io/tebriel/fry-bot
+    digest: sha256:bfb2e08193c395327fe06afbebe425a9576afa1b12a4a2b6d80fdcfdbcb18c04
 
 resources:
 - fry-bot.yaml
